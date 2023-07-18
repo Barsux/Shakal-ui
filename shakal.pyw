@@ -698,6 +698,8 @@ class Ui_MainWindow(object):
 
     def select_file_clicked(self):
         self.filePath, _ = QFileDialog.getOpenFileName(None, 'Open File', './', "pdf (*.pdf)")
+        if not self.filePath:
+            return 
         self.fileSelect.setEnabled(False)
         self.fileDependance["state"] = True
         self.changeDependanceState(self.fileDependance)
@@ -765,8 +767,10 @@ class Ui_MainWindow(object):
 
     
     def clearClicked(self):
-        del self.grid
-        del self.imageworker
+        if self.grid is not None:
+            del self.grid
+        if self.imageworker is not None:
+            del self.imageworker
         self.fileDependance["state"] = False
         self.changeDependanceState(self.fileDependance)
         self.tempImagesDir = tempfile.TemporaryDirectory()
