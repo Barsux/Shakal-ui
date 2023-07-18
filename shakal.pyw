@@ -36,6 +36,16 @@ dependance_sample = {
 def printf(*args):
         print(f"[{datetime.datetime.today().strftime('%Y-%m-%d %H:%M:%S')}] :", *args)
 
+
+def openInPreffered(path):
+    if platform.system() == "Windows":
+            os.startfile(path)
+    elif platform.system() == "Darwin":
+        subprocess.Popen(["open", path])
+    else:
+        subprocess.Popen(["xdg-open", path])
+
+
 class Grid:
     ui = None
     buttons = []
@@ -618,8 +628,8 @@ class Ui_MainWindow(object):
         self.convertButton.clicked.connect(self.convert)
         self.nextPageButton.clicked.connect(self.nextPageClicked)
         self.clearButton.clicked.connect(self.clearClicked)
-        self.openExplorerButton.clicked.connect(self.open_directory_clicked)
-        self.printButton.clicked.connect(self.print_clicked)
+        self.openExplorerButton.clicked.connect(self.open_explorer_decorator)
+        self.printButton.clicked.connect(self.open_pdf_decorator)
         self.fileDependance = copy.deepcopy(dependance_sample)
         self.fileDependance[1] += [self.prevBageButton, self.nextPageButton, self.fillPages, self.convertButton, self.clearButton]
 
@@ -710,24 +720,13 @@ class Ui_MainWindow(object):
         self.imageworker.finished.connect(self.ImageWorker_finished)
 
 
-    def print_clicked(self):
-        if platform.system() == "Windows":
-            Thread(target=os.startfile, args=(self.latestSaved,)).start()
-        elif platform.system() == "Darwin":
-            Thread(target=subprocess.Popen, args=(["open", self.latestSaved])).start()
-        else:
-            Thread(target=subprocess.Popen, args=(["xdg-open", self.latestSaved])).start()
-            
+    def open_explorer_decorator(self):
+        Thread(target=openInPreffered, args=(self.tempPdfDir.name,)).start()
 
-    
-    def open_directory_clicked(self):
-        if platform.system() == "Windows":
-            os.startfile(self.tempPdfDir.name)
-        elif platform.system() == "Darwin":
-            subprocess.Popen(["open", self.tempPdfDir.name])
-        else:
-            subprocess.Popen(["xdg-open", self.tempPdfDir.name])
-        
+
+    def open_pdf_decorator(self):
+        Thread(target=openInPreffered, args=(self.latestSaved,)).start()
+
     
     def ImageWorker_finished(self):
         self.ImageWidth.setPlainText(str(DEFAULT_WIDTH))
