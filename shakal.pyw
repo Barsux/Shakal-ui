@@ -711,7 +711,12 @@ class Ui_MainWindow(object):
 
 
     def print_clicked(self):
-        Thread(target=os.system, args=(self.latestSaved,)).start()
+        if platform.system() == "Windows":
+            Thread(target=os.startfile, args=(self.latestSaved,)).start()
+        elif platform.system() == "Darwin":
+            Thread(target=subprocess.Popen, args=(["open", self.latestSaved])).start()
+        else:
+            Thread(target=subprocess.Popen, args=(["xdg-open", self.latestSaved])).start()
             
 
     
