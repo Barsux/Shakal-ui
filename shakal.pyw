@@ -183,7 +183,8 @@ class PdfWorker(QThread):
 
 
     def run(self):
-        self.name = f"{self.outDir}\\{self.filename}_{self.numDocuments}.pdf"
+        self.name = f"{self.filename}_{self.numDocuments}.pdf"
+        self.name = os.path.join(self.outDir, self.name)
         c = canvas.Canvas(self.name ,pagesize=self.pagesize)
         images = os.listdir(self.dir)
         images = tuple(sorted(map(lambda x: os.path.join(self.dir, x), images), key=lambda file: int(file.split('_')[-2])))
