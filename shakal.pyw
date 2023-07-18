@@ -3,6 +3,8 @@ import datetime
 import tempfile
 import fitz
 import copy
+import platform
+import subprocess
 from PIL import Image, ImageOps
 from PyQt6 import QtCore, QtGui, QtWidgets
 from PyQt6.QtWidgets import QFileDialog
@@ -10,7 +12,6 @@ from PyQt6.QtCore import QThread
 from reportlab.lib.pagesizes import A4
 from reportlab.pdfgen import canvas
 from reportlab.lib.units import cm
-from showinfm import show_in_file_manager
 from threading import Thread
 
 
@@ -712,7 +713,12 @@ class Ui_MainWindow(object):
 
     
     def open_directory_clicked(self):
-        show_in_file_manager(self.latestSaved)
+        if platform.system() == "Windows":
+            os.startfile(self.tempPdfDir.name)
+        elif platform.system() == "Darwin":
+            subprocess.Popen(["open", self.tempPdfDir.name])
+        else:
+            subprocess.Popen(["xdg-open", self.tempPdfDir.name])
         
     
     def ImageWorker_finished(self):
