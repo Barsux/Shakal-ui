@@ -149,6 +149,10 @@ class Grid:
     def clear(self):
         for button in self.buttons:
             button.setParent(None)
+
+    def deactivate(self):
+        for button in self.buttons:
+            button.setStyleSheet(buttonInactiveStyle)
     
     def __del__(self):
         for button in self.buttons:
@@ -265,12 +269,24 @@ class Ui_MainWindow(object):
 "border-top-left-radius: 5;\n"
 "border-bottom-left-radius: 5;\n"
 "border-bottom-right-radius: 5;")
+        
+        bold_font = QtGui.QFont()
+        bold_font.setFamily("Arial")
+        bold_font.setBold(True)
+        bold_font.setWeight(75)
+        bold_font.setPointSize(10)
+
+
+        font = QtGui.QFont()
+        font.setFamily("Arial")
+        font.setWeight(75)
+        font.setPointSize(10)
+
+
         self.PageBox.setTitle("")
         self.PageBox.setObjectName("PageBox")
         self.fillPages = QtWidgets.QCheckBox(parent=self.centralwidget)
         self.fillPages.setGeometry(QtCore.QRect(290, 328, 16, 16))
-        font = QtGui.QFont()
-        font.setFamily("Segoe UI Symbol")
         self.fillPages.setFont(font)
         self.fillPages.setStyleSheet("color: rgb(255, 255, 255);\n"
 "background-color: none;")
@@ -299,39 +315,19 @@ class Ui_MainWindow(object):
         self.ImageWidth.setObjectName("ImageWidth")
         self.label_3 = QtWidgets.QLabel(parent=self.pageSettingsBox)
         self.label_3.setGeometry(QtCore.QRect(10, 60, 175, 16))
-        font = QtGui.QFont()
-        font.setFamily("Myanmar Text")
-        font.setPointSize(10)
-        font.setBold(True)
-        font.setWeight(75)
-        self.label_3.setFont(font)
+        self.label_3.setFont(bold_font)
         self.label_3.setStyleSheet("border: none;\n"
 "color: rgb(255, 255, 255);")
         self.label_3.setObjectName("label_3")
         self.label_2 = QtWidgets.QLabel(parent=self.pageSettingsBox)
         self.label_2.setGeometry(QtCore.QRect(10, 20, 175, 16))
-        font = QtGui.QFont()
-        font.setFamily("Myanmar Text")
-        font.setPointSize(10)
-        font.setBold(True)
-        font.setWeight(75)
-        self.label_2.setFont(font)
+        self.label_2.setFont(bold_font)
         self.label_2.setStyleSheet("border: none;\n"
 "color: rgb(255, 255, 255);")
         self.label_2.setObjectName("label_2")
-        font = QtGui.QFont()
-        font.setFamily("Myanmar Text")
-        font.setPointSize(10)
-        font.setBold(True)
-        font.setWeight(75)
         self.label_4 = QtWidgets.QLabel(parent=self.pageSettingsBox)
         self.label_4.setGeometry(QtCore.QRect(10, 100, 175, 16))
-        font = QtGui.QFont()
-        font.setFamily("Myanmar Text")
-        font.setPointSize(10)
-        font.setBold(True)
-        font.setWeight(75)
-        self.label_4.setFont(font)
+        self.label_4.setFont(bold_font)
         self.label_4.setStyleSheet("border: none;\n"
 "color: rgb(255, 255, 255);")
         self.label_4.setObjectName("label_4")
@@ -401,11 +397,6 @@ class Ui_MainWindow(object):
         self.nextPageButton.setObjectName("nextPageButton")
         self.convertButton = QtWidgets.QPushButton(parent=self.centralwidget)
         self.convertButton.setGeometry(QtCore.QRect(290, 350, 270, 30))
-        font = QtGui.QFont()
-        font.setFamily("Segoe UI Symbol")
-        font.setPointSize(10)
-        font.setBold(False)
-        font.setWeight(50)
         self.convertButton.setFont(font)
         self.convertButton.setStyleSheet("\n"
 "QPushButton {\n"
@@ -436,11 +427,6 @@ class Ui_MainWindow(object):
         self.convertButton.setObjectName("convertButton")
         self.printButton = QtWidgets.QPushButton(parent=self.centralwidget)
         self.printButton.setGeometry(QtCore.QRect(290, 385, 133, 30))
-        font = QtGui.QFont()
-        font.setFamily("Segoe UI Symbol")
-        font.setPointSize(10)
-        font.setBold(False)
-        font.setWeight(50)
         self.printButton.setFont(font)
         self.printButton.setStyleSheet("\n"
 "QPushButton {\n"
@@ -469,11 +455,6 @@ class Ui_MainWindow(object):
         self.printButton.setObjectName("printButton")
         self.openExplorerButton = QtWidgets.QPushButton(parent=self.centralwidget)
         self.openExplorerButton.setGeometry(QtCore.QRect(427, 385, 133, 30))
-        font = QtGui.QFont()
-        font.setFamily("Segoe UI Symbol")
-        font.setPointSize(10)
-        font.setBold(False)
-        font.setWeight(50)
         self.openExplorerButton.setFont(font)
         self.openExplorerButton.setStyleSheet("\n"
 "QPushButton {\n"
@@ -503,11 +484,6 @@ class Ui_MainWindow(object):
         self.fileSelect = QtWidgets.QPushButton(parent=self.centralwidget)
         self.fileSelect.setEnabled(True)
         self.fileSelect.setGeometry(QtCore.QRect(290, 150, 235, 31))
-        font = QtGui.QFont()
-        font.setFamily("Segoe UI Symbol")
-        font.setPointSize(10)
-        font.setBold(False)
-        font.setWeight(50)
         self.fileSelect.setFont(font)
         self.fileSelect.setStyleSheet("\n"
 "QPushButton {\n"
@@ -564,8 +540,6 @@ class Ui_MainWindow(object):
         self.clearButton.setObjectName("clearButton")
         self.documentName = QtWidgets.QLabel(parent=self.centralwidget)
         self.documentName.setGeometry(QtCore.QRect(290, 230, 260, 30))
-        font = QtGui.QFont()
-        font.setFamily("Segoe UI Symbol")
         self.documentName.setFont(font)
         self.documentName.setStyleSheet("color: rgb(255, 255, 255);\n"
 "background-color: none;")
@@ -573,8 +547,6 @@ class Ui_MainWindow(object):
         self.documentName.setObjectName("documentName")
         self.numImagesLabel = QtWidgets.QLabel(parent=self.centralwidget)
         self.numImagesLabel.setGeometry(QtCore.QRect(290, 260, 260, 30))
-        font = QtGui.QFont()
-        font.setFamily("Segoe UI Symbol")
         self.numImagesLabel.setFont(font)
         self.numImagesLabel.setStyleSheet("color: rgb(255, 255, 255);\n"
 "background-color: none;")
@@ -582,8 +554,6 @@ class Ui_MainWindow(object):
         self.numImagesLabel.setObjectName("numImagesLabel")
         self.pageSelectorLabel = QtWidgets.QLabel(parent=self.centralwidget)
         self.pageSelectorLabel.setGeometry(QtCore.QRect(290, 290, 260, 30))
-        font = QtGui.QFont()
-        font.setFamily("Segoe UI Symbol")
         self.pageSelectorLabel.setFont(font)
         self.pageSelectorLabel.setStyleSheet("color: rgb(255, 255, 255);\n"
 "background-color: none;")
@@ -598,8 +568,6 @@ class Ui_MainWindow(object):
         self.pageLabel.setObjectName("pageLabel")
         self.label_9 = QtWidgets.QLabel(parent=self.centralwidget)
         self.label_9.setGeometry(QtCore.QRect(310, 320, 241, 30))
-        font = QtGui.QFont()
-        font.setFamily("Segoe UI Symbol")
         self.label_9.setFont(font)
         self.label_9.setStyleSheet("color: rgb(255, 255, 255);\n"
 "background-color: none;")
@@ -671,9 +639,11 @@ class Ui_MainWindow(object):
         self.rows = int(self.rows)
         self.cols = int(self.cols) 
         if self.grid is not None:
+            self.grid.deactivate()
             self.grid.clear()
             del self.grid
         self.grid = Grid(self, self.numImages, self.cols, self.rows)
+        self.grid.deactivate()
         self.fillPages.setChecked(False)
         self.drawGrid(1)
 
@@ -742,14 +712,15 @@ class Ui_MainWindow(object):
         self.imageResolution = self.imageworker.imageRes
         self.numImagesLabel.setText(f"Найдено {self.numImages} изображени(я/ий).")
         self.grid = Grid(self, self.numImages, self.cols, self.rows)
+        self.grid.deactivate()
         self.fillPages.clicked.connect(self.grid.fill_grid_pushed)
         self.pageLabel.setText(f"{self.grid.currpage}/{self.grid.pages}")
         self.drawGrid(1)
-        self.convertButton.setEnabled(False)
         self.fileDependance["state"] = True
         self.changeDependanceState(self.fileDependance)
         self.nextPageButton.setEnabled(True)
         self.prevBageButton.setEnabled(False)
+        self.convertButton.setEnabled(False)
 
     def prevPageClicked(self):
         if self.grid.currpage == self.grid.pages:
@@ -773,6 +744,8 @@ class Ui_MainWindow(object):
     
     def clearClicked(self):
         if self.grid is not None:
+            self.grid.deactivate()
+            self.grid.clear()
             del self.grid
         if self.imageworker is not None:
             del self.imageworker
