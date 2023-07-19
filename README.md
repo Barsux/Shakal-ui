@@ -11,7 +11,7 @@ $ python3 -m pip install -r requirements.txt
 
 # Порядок запуска
 ``` bash
-$ python3 shakal.pyw
+$ python3 -m shakal
 ```
 
 ### В будущем планируется преобразования скрипта в библиотеку и загрузка в репозиторий Pypi.
