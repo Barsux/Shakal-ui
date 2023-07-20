@@ -2,5 +2,8 @@
 /shakal/__pycache__
 /venv
 /.idea
+/dist
+/build
 *.pdf
 *.docx
+*.spec

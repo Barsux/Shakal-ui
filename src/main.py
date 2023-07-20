@@ -1,11 +1,12 @@
 import os
+import sys
 import datetime
 import tempfile
 import fitz
 import copy
 import platform
 import subprocess
-
+from styles import Styles 
 from PIL import Image, ImageOps
 from PyQt6 import QtCore, QtGui, QtWidgets
 from PyQt6.QtWidgets import QMainWindow, QFileDialog
@@ -14,11 +15,6 @@ from reportlab.lib.pagesizes import A4
 from reportlab.pdfgen import canvas
 from reportlab.lib.units import cm
 from threading import Thread
-
-if __name__ == "__main__":
-    from shakal.styles import Styles
-else:
-    from styles import Styles 
 
 H_PAD = 10
 W_PAD = 20
@@ -263,6 +259,7 @@ class Ui_MainWindow(QMainWindow):
         self.setupUi()
 
     def setupUi(self):
+        self.setWindowIcon(QtGui.QIcon('shakal.ico'))
         self.setObjectName("MainWindow")
         self.resize(569, 424)
         self.setStyleSheet(Styles.mainwindow_style)
@@ -655,15 +652,11 @@ class Ui_MainWindow(QMainWindow):
                 self.grid.buttons[i].clicked.connect(lambda _, i=i: self.grid.button_pressed(i))
             self.gridB.addWidget(self.grid.buttons[i], row, col)
         self.grid.visited_pages.append(page)
+    
 
 
-def main():
-    import sys
+if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
     window = Ui_MainWindow()
     window.show()
     sys.exit(app.exec())
-
-
-if __name__ == "__main__":
-    main()
