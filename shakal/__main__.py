@@ -5,7 +5,7 @@ import fitz
 import copy
 import platform
 import subprocess
-from shakal.styles import Styles
+
 from PIL import Image, ImageOps
 from PyQt6 import QtCore, QtGui, QtWidgets
 from PyQt6.QtWidgets import QMainWindow, QFileDialog
@@ -14,6 +14,11 @@ from reportlab.lib.pagesizes import A4
 from reportlab.pdfgen import canvas
 from reportlab.lib.units import cm
 from threading import Thread
+
+if __name__ == "__main__":
+    from shakal.styles import Styles
+else:
+    from styles import Styles 
 
 H_PAD = 10
 W_PAD = 20
@@ -260,20 +265,14 @@ class Ui_MainWindow(QMainWindow):
     def setupUi(self):
         self.setObjectName("MainWindow")
         self.resize(569, 424)
-        self.setStyleSheet("background-color: qlineargradient(spread:pad, x1:0 y1:0, x2:1 y2:0,"
-                           "stop:0 rgba(121, 121, 121, 255), stop:1 rgba(0, 0, 0, 255));")
+        self.setStyleSheet(Styles.mainwindow_style)
         self.centralwidget = QtWidgets.QWidget()
         self.centralwidget.setStyleSheet("")
         self.centralwidget.setObjectName("centralwidget")
         self.setCentralWidget(self.centralwidget)
         self.PageBox = QtWidgets.QGroupBox(parent=self.centralwidget)
         self.PageBox.setGeometry(QtCore.QRect(10, 10, 270, 370))
-        self.PageBox.setStyleSheet("border: 2px solid;\n"
-                                   "background-color: rgb(110, 110, 110);\n"
-                                   "border-color: rgb(255, 170, 0);\n"
-                                   "border-top-left-radius: 5;\n"
-                                   "border-bottom-left-radius: 5;\n"
-                                   "border-bottom-right-radius: 5;")
+        self.PageBox.setStyleSheet(Styles.box_style)
 
         bold_font = QtGui.QFont()
         bold_font.setFamily("Arial")
@@ -297,11 +296,7 @@ class Ui_MainWindow(QMainWindow):
         self.fillPages.setObjectName("fillPages")
         self.pageSettingsBox = QtWidgets.QGroupBox(parent=self.centralwidget)
         self.pageSettingsBox.setGeometry(QtCore.QRect(290, 10, 270, 131))
-        self.pageSettingsBox.setStyleSheet("border: 2px solid;\n"
-                                           "background-color: rgb(121, 121, 121);\n"
-                                           "border-color: rgb(255, 170, 0);\n"
-                                           "border-top-right-radius: 5;\n"
-                                           "border-bottom-right-radius: 5;")
+        self.pageSettingsBox.setStyleSheet(Styles.page_settings_style)
         self.pageSettingsBox.setTitle("")
         self.pageSettingsBox.setObjectName("pageSettingsBox")
         self.numCols = QtWidgets.QTextEdit(parent=self.pageSettingsBox)
@@ -408,114 +403,23 @@ class Ui_MainWindow(QMainWindow):
         self.printButton = QtWidgets.QPushButton(parent=self.centralwidget)
         self.printButton.setGeometry(QtCore.QRect(290, 385, 133, 30))
         self.printButton.setFont(font)
-        self.printButton.setStyleSheet("\n"
-                                       "QPushButton {\n"
-                                       "    background-color: rgb(255, 170, 0);\n"
-                                       "    border: none;\n"
-                                       "    border-radius: 5;\n"
-                                       "}\n"
-                                       "QPushButton:pressed {\n"
-                                       "    background-color: rgb(195, 130, 0);\n"
-                                       "    border: none;\n"
-                                       "    border-radius: 5;\n"
-                                       "}\n"
-                                       "QPushButton:hover:!pressed {\n"
-                                       "    background-color: rgb(255, 170, 0);\n"
-                                       "    border: 2px solid;\n"
-                                       "    border-color: rgb(255, 255, 255);\n"
-                                       "    border-radius: 5;\n"
-                                       "}\n"
-                                       "QPushButton:disabled {\n"
-                                       "    background-color: rgb(145, 97, 0);\n"
-                                       "    color: rgb(145, 97, 0);\n"
-                                       "    border: none;\n"
-                                       "    border-radius: 5;\n"
-                                       "}\n"
-                                       "")
+        self.printButton.setStyleSheet(Styles.default_button_style)
         self.printButton.setObjectName("printButton")
         self.openExplorerButton = QtWidgets.QPushButton(parent=self.centralwidget)
         self.openExplorerButton.setGeometry(QtCore.QRect(427, 385, 133, 30))
         self.openExplorerButton.setFont(font)
-        self.openExplorerButton.setStyleSheet("\n"
-                                              "QPushButton {\n"
-                                              "    background-color: rgb(255, 170, 0);\n"
-                                              "    border: none;\n"
-                                              "    border-radius: 5;\n"
-                                              "}\n"
-                                              "QPushButton:pressed {\n"
-                                              "    background-color: rgb(195, 130, 0);\n"
-                                              "    border: none;\n"
-                                              "    border-radius: 5;\n"
-                                              "}\n"
-                                              "QPushButton:hover:!pressed {\n"
-                                              "    background-color: rgb(255, 170, 0);\n"
-                                              "    border: 2px solid;\n"
-                                              "    border-color: rgb(255, 255, 255);\n"
-                                              "    border-radius: 5;\n"
-                                              "}\n"
-                                              "QPushButton:disabled {\n"
-                                              "    background-color: rgb(145, 97, 0);\n"
-                                              "    color: rgb(145, 97, 0);\n"
-                                              "    border: none;\n"
-                                              "    border-radius: 5;\n"
-                                              "}\n"
-                                              "")
+        self.openExplorerButton.setStyleSheet(Styles.default_button_style)
         self.openExplorerButton.setObjectName("openExplorerButton")
         self.fileSelect = QtWidgets.QPushButton(parent=self.centralwidget)
         self.fileSelect.setEnabled(True)
         self.fileSelect.setGeometry(QtCore.QRect(290, 150, 235, 31))
         self.fileSelect.setFont(font)
-        self.fileSelect.setStyleSheet("\n"
-                                      "QPushButton {\n"
-                                      "    background-color: rgb(255, 170, 0);\n"
-                                      "    border: none;\n"
-                                      "    border-radius: 5;\n"
-                                      "}\n"
-                                      "QPushButton:pressed {\n"
-                                      "    background-color: rgb(195, 130, 0);\n"
-                                      "    border: none;\n"
-                                      "    border-radius: 5;\n"
-                                      "}\n"
-                                      "QPushButton:hover:!pressed {\n"
-                                      "    background-color: rgb(255, 170, 0);\n"
-                                      "    border: 2px solid;\n"
-                                      "    border-color: rgb(255, 255, 255);\n"
-                                      "    border-radius: 5;\n"
-                                      "}\n"
-                                      "QPushButton:disabled {\n"
-                                      "    background-color: rgb(195, 130, 0);\n"
-                                      "    border: none;\n"
-                                      "    border-radius: 5;\n"
-                                      "}\n"
-                                      "\n"
-                                      "")
+        self.fileSelect.setStyleSheet(Styles.default_button_style)
         self.fileSelect.setObjectName("fileSelect")
         self.clearButton = QtWidgets.QPushButton(parent=self.centralwidget)
         self.clearButton.setEnabled(True)
         self.clearButton.setGeometry(QtCore.QRect(530, 150, 30, 31))
-        self.clearButton.setStyleSheet("QPushButton {\n"
-                                       "    background-color:  rgb(255, 100, 0);\n"
-                                       "    border: none;\n"
-                                       "    border-radius: 5;\n"
-                                       "}\n"
-                                       "QPushButton:pressed {\n"
-                                       "    background-color:  rgb(148, 56, 0);\n"
-                                       "    border: none;\n"
-                                       "    border-radius: 5;\n"
-                                       "}\n"
-                                       "QPushButton:hover:!pressed {\n"
-                                       "    background-color: rgb(255, 100, 0);\n"
-                                       "    border: 2px solid;\n"
-                                       "    border-color: rgb(255, 255, 255);\n"
-                                       "    border-radius: 5;\n"
-                                       "}\n"
-                                       "QPushButton:disabled {\n"
-                                       "    background-color:  rgb(148, 56, 0);\n"
-                                       "    border: none;\n"
-                                       "    border-radius: 5;\n"
-                                       "}\n"
-                                       "\n"
-                                       "")
+        self.clearButton.setStyleSheet(Styles.cancel_button_style)
         self.clearButton.setText("")
         self.clearButton.setObjectName("clearButton")
         self.documentName = QtWidgets.QLabel(parent=self.centralwidget)
@@ -753,10 +657,13 @@ class Ui_MainWindow(QMainWindow):
         self.grid.visited_pages.append(page)
 
 
-if __name__ == "__main__":
+def main():
     import sys
-
     app = QtWidgets.QApplication(sys.argv)
     window = Ui_MainWindow()
     window.show()
     sys.exit(app.exec())
+
+
+if __name__ == "__main__":
+    main()
